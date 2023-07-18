@@ -77,7 +77,7 @@ def get_filters():
 
     # get user input on how to filter the data for the selected city
     while True:
-        filter_select = input("Would you like to see the information prefiltered by month (m), day (d) or not at all (na)?\
+        filter_select = input("Would you like to see the information pre-filtered by month (m), day (d) or not at all (na)?\
                                  \nEnter 'none' to stop the program: ").lower()
 
         if filter_select == 'none':
@@ -131,7 +131,7 @@ def get_filters():
             break
         
         else:
-            print("\nInvalid input. Please enter a month, day, not at all (na) for no prefiltering, or 'none' to stop the program.\n")
+            print("\nInvalid input. Please enter a month, day, not at all (na) for no pre-filtering, or 'none' to stop the program.\n")
    
     #provide the user with their selected values
     print(f"\nYou selected {city} as your place of interest.\
