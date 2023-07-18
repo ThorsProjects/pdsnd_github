@@ -22,5 +22,4 @@ new_york_city.csv
 washington.csv
 
 ### Credits
-It's important to give proper credit. Add links to any repo that inspired you or blogposts you consulted.
-
+The csv-data and general outline of the script was provided by udacity (Course: https://learn.udacity.com/nanodegrees/nd104)
