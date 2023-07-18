@@ -2,142 +2,58 @@
 import time
 import pandas as pd
 import numpy as np
+
+pd.set_option("display.max_columns", 200)
+
 # Provide dictionary for mapping to source files
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
-def get_filters():
-    '''
-    Asks user to specify a city, month, and day to analyze.
-    ''' 
-    '''
+
+def check_data_entry(prompt, valid_entries): 
+    """
+    Function that asks the user to input data and verifies if it's valid.
+    This simplifies the get_filters() function, where we need to ask the user for three inputs.
+    Args:
+        (str) prompt - message to show to the user
+        (list) valid_entries - list of accepted strings 
+    Returns:
+        (str) user_input - user's valid input
+    """
+    try:
+        user_input = str(input(prompt)).lower()
+        while user_input not in valid_entries : 
+            print('It looks like your entry is incorrect.')
+            print('Let\'s try again!')
+            user_input = str(input(prompt)).lower()
+
+        print('Great! You\'ve chosen: {}\n'.format(user_input))
+        return user_input
+
+    except:
+        print('There seems to be an issue with your input.')
+
+def get_filters(): 
+    """
+    Function to ask the user for a city, month, and day to analyze.
     Returns:
         (str) city - name of the city to analyze
-        (str) month - name of the month to filter by, or 'all' to apply no month filter
-        (str) day - name of the day of week to filter by, or 'all' to apply no day filter
-    '''
-    #dictionaries for City names, day or month selection, month, and day to allow user to use abbreviations, when deciding on what to filter for
-    city_abbr = {   'ch': 'Chicago',
-                    'chicago': 'Chicago',
-                    'ny': 'New York City',
-                    'new york': 'New York City',
-                    'wa': 'Washington',
-                    'washington': 'Washington'}
-    
-    filter_abbr = {'m': 'month',
-                   'month': 'month',
-                    'd': 'day',
-                    'day': 'day',
-                    'na': 'all',
-                    'not at all': 'all'}
+        (str) month - name of the month to filter by, or "all" to apply no month filter
+        (str) day - name of the day of week to filter by, or "all" to apply no day filter
+    """
+    print('Hello! Let\'s explore some US bikeshare data!')
+    valid_cities = CITY_DATA.keys()
+    prompt_cities = 'Choose one of the 3 cities (chicago, new york city, washington): '
+    city = check_data_entry(prompt_cities, valid_cities)
 
-    month_abbr = {  'jan': 'January',
-                    'january': 'January',
-                    'feb': 'February',
-                    'february': 'February',
-                    'mar': 'March',
-                    'march': 'March',
-                    'apr': 'April',
-                    'april': 'April',
-                    'may': 'May', #used 'may' twice, to keep to the overall system
-                    'may': 'May',
-                    'jun': 'June',
-                    'june': 'June',
-                    'all': 'all'}
+    valid_months = ['all','january','february','march','april','may','june']
+    prompt_month = 'Choose a month (all, january, february, ... , june): '
+    month = check_data_entry(prompt_month, valid_months)
 
-    day_abbr = {    'mon': 'Monday',
-                    'monday': 'Monday',
-                    'tue': 'Tuesday',
-                    'tuesday': 'Tuesday',
-                    'wed': 'Wednesday',
-                    'wednesday': 'Wednesday',
-                    'thu': 'Thursday',
-                    'thursday': 'Thursday',
-                    'fri': 'Friday',
-                    'friday': 'Friday',
-                    'sat': 'Saturday',
-                    'saturday': 'Saturday',
-                    'sun': 'Sunday',
-                    'sunday': 'Sunday',
-                    'all': 'all'}
+    valid_days = ['all','monday','tuesday','wednesday','thursday','friday','saturday', 'sunday']
+    prompt_day = 'Choose a day (all, monday, tuesday, ... sunday): '
+    day = check_data_entry(prompt_day, valid_days)
 
-    # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-    while True:
-        city = input("For which city would you like to see data? Chicago (CH), New York City (NY), or Washington (WA).\
-                    \nEnter 'none' to stop the program: ").lower()
-
-        if city.lower() == 'none':
-            return None, None, None     #return three times "none" as function is expected to return three values
-
-        city = city_abbr.get(city)
-        if city:
-            break
-        else:
-            print("\nInvalid input. Please enter a valid city or 'none' to stop the program.\n")
-
-    # get user input on how to filter the data for the selected city
-    while True:
-        filter_select = input("Would you like to see the information pre-filtered by month (m), day (d) or not at all (na)?\
-                                 \nEnter 'none' to stop the program: ").lower()
-
-        if filter_select == 'none':
-            return None, None, None     #return three times "none" as function is expected to return three values
-        
-        filter_select = filter_abbr.get(filter_select)
-
-        if filter_select:
-            # if user wants to filter for month, check which month or if all should be used
-            if filter_select == 'month':
-                # get user input for month (all, january, february, ... , june)
-                while True:
-                    month = input("For which month would you like to see the data? \
-                                \nJanuary (jan), February (feb), March (mar), April (apr), May (may), June (jun), or all (all) six months?\
-                                \nEnter 'none' to stop the program:  ").lower()
-
-                    if month == 'none':
-                        return None, None, None     #return three times "none" as function is expected to return three values
-
-                    month = month_abbr.get(month)
-                    if month:
-                        day = 'all'     #set day to "all" as user selected to filter by month
-                        break
-                    else:
-                        print("\nInvalid input. Please enter a valid month, 'all' for all month, or 'none' to stop the program.\n")
-            
-            # if user wants to filter by day, check which day of the week or if all days should be used
-            if filter_select == 'day':
-                # get user input for day of week (all, monday, tuesday, ... sunday)
-                while True:
-                    day = input("For which day of the week would you like to see the data? \
-                                \nMonday (mon), Tuesday (tue), Wednesday (wed), Thursday (thu), Friday (fri), Saturday (sat), Sunday (sun), or all (all) days?\
-                                \nEnter 'none' to stop the program: ").lower()
-                    
-                    if day == 'none':
-                        return None, None, None     #return three times "none" as function is expected to return three values
-
-                    day = day_abbr.get(day)
-                    if day:
-                        month = 'all'       #set month to "all" as user selected to filter by day
-                        break
-                    else:
-                        print("\nInvalid input. Please enter a valid day, 'all' for all days, or 'none' to stop the program.\n")
-            
-            if filter_select == 'all':
-                # if user selected to filter neither by month nor day, set month and day to 'all'
-                month = 'all'
-                day = 'all'
-                break
-            
-            break
-        
-        else:
-            print("\nInvalid input. Please enter a month, day, not at all (na) for no pre-filtering, or 'none' to stop the program.\n")
-   
-    #provide the user with their selected values
-    print(f"\nYou selected {city} as your place of interest.\
-          \nThe information shown will be based on your selection, if not stated otherwise:\
-          \nMonth(s): {month}\
-          \nDay(s): {day}")
     print('-'*40)
     return city, month, day
 
@@ -394,7 +310,7 @@ def user_stats(df, city):
     print('-'*40)
 def df_raw_data(df):
     '''Display 5 rows of raw data and add more rows of data upon request'''
-    
+       
     response_abbr = {'yes': 'yes',
                      'y': 'yes',
                      'no': 'no',
