@@ -2,6 +2,9 @@
 import time
 import pandas as pd
 import numpy as np
+
+pd.set_option("display.max_columns", 200)
+
 # Provide dictionary for mapping to source files
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
@@ -307,7 +310,7 @@ def user_stats(df, city):
     print('-'*40)
 def df_raw_data(df):
     '''Display 5 rows of raw data and add more rows of data upon request'''
-    
+       
     response_abbr = {'yes': 'yes',
                      'y': 'yes',
                      'no': 'no',
