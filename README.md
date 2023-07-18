@@ -26,3 +26,4 @@ washington.csv
 
 ### Credits
 The csv-data and general outline of the script was provided by udacity (Course: https://learn.udacity.com/nanodegrees/nd104)
+!Used the example changes from code review of python script for Project: Explore US Bikeshare Data to "Update" the script as part of this project!
