@@ -7,7 +7,12 @@
 udacity bikeshare project
 
 ### Description
-Describe what your project is about and what it does
+The project was created as part of the "Programming for Data Science with PYthon" course at UDACITY.
+It allows the user to check travel information for three cities, based in their input.
+Possible selections are:
+- one of the three cities
+- one or all of the first six month of a year
+- one or all days of a week
 
 ### Files used
 Include the files used:
