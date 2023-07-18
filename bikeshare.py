@@ -461,6 +461,7 @@ def df_raw_data(df):
         else:
             print("\nInvalid input. Please enter yes (y) to add more rows or no (n) to stop adding rows: \n")
 def main():
+    #main function of script, organising the overall flow and allowing restart of the program
     while True:
         city, month, day = get_filters()
         # check if "none" was entered and leave program if true
@@ -496,5 +497,7 @@ def main():
                 break
             else:
                 print("\nInvalid input. Please enter a valid city or 'none' to stop the program.\n")
+
+#check if script is run as main program
 if __name__ == '__main__':
 	main()
