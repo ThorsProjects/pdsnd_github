@@ -14,6 +14,9 @@ Possible selections are:
 - one or all of the first six month of a year
 - one or all days of a week
 
+It will show information based on the selection made by the user. 
+For example in regard to most common times of travel or stations used most frequently as start or end point. It can also provide the average travel time during the selected period of time.
+
 ### Files used
 Include the files used:
 bikeshare.py
