@@ -3,6 +3,8 @@ import time
 import pandas as pd
 import numpy as np
 
+#pd.set_option(...) was taken from the Feedback provided in the python project of this course as an quick chance of the code
+#this was only done to be able to provide a change to this code
 pd.set_option("display.max_columns", 200)
 
 # Provide dictionary for mapping to source files
@@ -10,6 +12,9 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
+
+#def check_Data_entry(...) and def get_filters() were taken from the Feedback provided in the python project of this course as an quick chance of the code
+#this was only done to be able to provide a change to this code
 def check_data_entry(prompt, valid_entries): 
     """
     Function that asks the user to input data and verifies if it's valid.
